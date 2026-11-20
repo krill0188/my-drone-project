@@ -1,0 +1,4 @@
+geometry_type: 1  # VEE
+spacing: 5.0
+altitude_offset: 0.0
+heading_offset: 0.0

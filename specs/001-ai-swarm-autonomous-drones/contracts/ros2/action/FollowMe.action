@@ -1,0 +1,35 @@
+# FollowMe.action
+# Leader follows human/operator with formation
+# Goal
+uint16 target_drone_id                   # Drone carrying tracker (or external)
+FollowMode mode                          # FOLLOW, ORBIT, SIDE_BY_SIDE
+float32 follow_distance_m                # Desired separation
+float32 max_speed_mps
+float32 min_distance_m                   # Safety minimum
+uint32 max_duration_s                    # 0 = indefinite
+bool maintain_formation                  # Followers hold geometry
+---
+# Result
+bool success
+string message
+FollowResult result
+---
+# Feedback
+float32 distance_to_target
+geometry_msgs/Vector3 target_velocity
+FormationState formation
+CommQoS[] mesh_links
+SafetyEvent[] safety_events
+
+---
+# FollowMode
+uint8 FOLLOW = 0
+uint8 ORBIT = 1
+uint8 SIDE_BY_SIDE = 2
+
+---
+# FollowResult
+uint32 duration_s
+float32 avg_distance_error_m
+float32 max_distance_error_m
+FlightLogSummary log_summary

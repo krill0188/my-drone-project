@@ -1,0 +1,7 @@
+# UploadMission.srv
+# Upload mission to swarm
+Mission mission                        # Full mission definition
+---
+bool success
+string message
+uint32 mission_sequence                # For tracking

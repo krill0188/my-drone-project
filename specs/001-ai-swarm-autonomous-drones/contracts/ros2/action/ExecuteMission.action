@@ -1,0 +1,31 @@
+# ExecuteMission.action
+# Execute a full mission (waypoint, search, inspect, etc.)
+# Goal
+Mission mission                        # Mission to execute
+bool wait_for_formation                # Wait for formation before starting
+float32 formation_timeout_s            # Max wait time
+---
+# Result
+bool success
+string message
+MissionResult result                   # Detailed results
+---
+# Feedback
+float32 progress                       # 0.0-1.0 overall
+uint32 current_waypoint                # Current waypoint index
+uint16 active_drones                   # Count
+FormationState formation               # Current formation
+CommQoS[] mesh_links                   # Mesh health
+AIInference[] recent_inferences        # Recent AI detections
+SafetyEvent[] safety_events            # Any safety events
+
+---
+# MissionResult
+uint8 outcome                          # 0=COMPLETED, 1=FAILED, 2=ABORTED, 3=PARTIAL
+uint64 start_time_us
+uint64 end_time_us
+float32 coverage_pct                   # For search missions
+uint32 waypoints_completed
+uint32 waypoints_total
+TaskResult[] task_results              # Per-task results
+FlightLogSummary log_summary           # Log file references

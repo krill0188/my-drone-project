@@ -1,0 +1,9 @@
+# EmergencyStop.srv
+# Emergency motor kill for specific drone or entire swarm
+uint16 target_id                       # 0 = all swarm
+bool deploy_parachute                  # If equipped
+string reason                          # Operator reason
+---
+bool success
+string message
+uint16[] affected_drones               # Drones that received command

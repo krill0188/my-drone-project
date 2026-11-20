@@ -1,0 +1,7 @@
+# RequestRTL.srv
+# Request return-to-launch for specific drone or entire swarm
+uint16 target_id                       # 0 = all swarm
+bool immediate                         # True = emergency RTL (bypass waypoints)
+---
+bool success
+string message

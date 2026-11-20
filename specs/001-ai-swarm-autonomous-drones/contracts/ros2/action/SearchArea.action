@@ -1,0 +1,40 @@
+# SearchArea.action
+# Autonomous area search with multiple drones
+# Goal
+geometry_msgs/Polygon search_area      # Polygon boundary (ENU)
+float32 target_coverage_pct            # Default 0.95
+float32 max_altitude_m
+float32 min_altitude_m
+float32 sensor_fov_deg                 # Camera/sensor FOV
+uint32 max_duration_s                  # Time budget
+bool return_on_battery_critical        # Auto RTL at 20%
+SearchPattern pattern                  # LAWNMOWER, SPIRAL, ADAPTIVE
+---
+# Result
+bool success
+string message
+SearchResult result
+---
+# Feedback
+float32 coverage_pct                   # Current coverage
+float32 area_covered_m2
+uint16 active_drones
+geometry_msgs/Polygon[] covered_cells  # Grid cells covered
+geometry_msgs/Polygon[] remaining_cells
+CommQoS[] mesh_links
+AIInference[] obstacle_detections
+SafetyEvent[] safety_events
+
+---
+# SearchPattern
+uint8 LAWNMOWER = 0
+uint8 SPIRAL = 1
+uint8 ADAPTIVE = 2
+
+---
+# SearchResult
+float32 final_coverage_pct
+float32 area_covered_m2
+uint32 duration_s
+TaskResult[] task_results
+FlightLogSummary log_summary

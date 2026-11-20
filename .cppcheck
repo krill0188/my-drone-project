@@ -1,0 +1,38 @@
+# cppcheck configuration
+[general]
+enable=all
+inconclusive=true
+force=true
+std=c++20
+platform=stm32
+language=c++
+
+[suppressions]
+# Suppress false positives for embedded code
+suppress=unreadVariable
+suppress=unusedFunction
+suppress=missingIncludeSystem
+suppress=configurationNotChecked
+suppress=knownConditionTrueFalse
+suppress=redundantAssignInOutParameter
+suppress=constParameterCallback
+suppress=constParameter
+suppress=uninitStructMember
+suppress=useStlAlgorithm
+
+[paths]
+# Firmware
+src/firmware/modules/
+src/firmware/platforms/
+# Companion
+src/companion/swarm_autonomy/
+src/companion/ai_perception/
+src/companion/swarm_comm/
+src/companion/swarm_safety/
+src/companion/swarm_interface/
+src/companion/swarm_common/
+# Tests
+tests/unit/firmware/
+tests/unit/companion/
+tests/integration/
+tests/simulation/

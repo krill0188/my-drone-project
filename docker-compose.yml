@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # SITL Simulation Service
+  sitl:
+    build:
+      context: .
+      dockerfile: Dockerfile.sitl
+    image: drone-swarm/sitl:latest
+    runtime: nvidia
+    environment:
+      - DISPLAY=:99
+      - GAZEBO_MASTER_URI=http://gazebo:11345
+      - ROS_DOMAIN_ID=42
+    volumes:
+      - ./src:/workspace/src:ro
+      - ./specs:/workspace/specs:ro
+      - ./tests:/workspace/tests:ro
+      - sitl_logs:/tmp/swarm_logs
+    ports:
+      - "14540-14590:14540-14590/udp"  # MAVLink ports
+      - "11345:11345"                 # Gazebo master
+    depends_on:
+      - gazebo
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # Gazebo Server
+  gazebo:
+    image: ghcr.io/gazebo/gazebo:harmonic
+    environment:
+      - GAZEBO_MASTER_URI=http://gazebo:11345
+    ports:
+      - "11345:11345"
+    volumes:
+      - ./src/simulation/sitl/models:/models
+      - ./src/simulation/sitl/worlds:/worlds
+    command: gz sim -v 4 -r /worlds/swarm_world.sdf
+
+  # HIL Service (requires hardware access)
+  hil:
+    build:
+      context: .
+      dockerfile: Dockerfile.hil
+    image: drone-swarm/hil:latest
+    runtime: nvidia
+    privileged: true
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"  # Pixhawk
+      - "/dev/ttyACM1:/dev/ttyACM1"  # Cube
+      - "/dev/ttyUSB0:/dev/ttyUSB0"  # CUAV
+    environment:
+      - ROS_DOMAIN_ID=42
+    volumes:
+      - ./src:/workspace/src:ro
+      - ./specs:/workspace/specs:ro
+      - ./tests:/workspace/tests:ro
+      - hil_logs:/tmp/swarm_logs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # CI Test Runner
+  ci-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.sitl
+    image: drone-swarm/ci-test:latest
+    runtime: nvidia
+    environment:
+      - DISPLAY=:99
+      - GAZEBO_MASTER_URI=http://gazebo:11345
+      - ROS_DOMAIN_ID=42
+      - PYTHONPATH=/workspace/src/companion:/workspace/src/tools
+    volumes:
+      - ./src:/workspace/src:ro
+      - ./specs:/workspace/specs:ro
+      - ./tests:/workspace/tests:ro
+      - ./scripts:/workspace/scripts:ro
+      - sitl_logs:/tmp/swarm_logs
+    depends_on:
+      - gazebo
+    command: >
+      bash -c "source /opt/ros/humble/setup.bash &&
+               cd /workspace &&
+               python3 -m pytest tests/ -v --tb=short &&
+               python3 src/simulation/test_runner/test_runner.py --all --output /tmp/test_report.json"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  sitl_logs:
+  hil_logs:
+
+networks:
+  default:
+    name: drone-swarm-net

@@ -1,0 +1,53 @@
+# Dockerfile for SITL Simulation (Gazebo Harmonic + PX4)
+
+FROM nvidia/cuda:12.2.0-devel-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=humble
+ENV GAZEBO_VERSION=harmonic
+
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git wget curl lsb-release gnupg2 \
+    python3 python3-pip python3-venv python3-dev \
+    build-essential cmake ninja-build \
+    libeigen3-dev libopencv-dev \
+    libgazebo-dev libignition-msgs-dev libignition-transport-dev \
+    libsdformat-dev \
+    ros-humble-desktop-full \
+    ros-humble-mavros ros-humble-mavros-extras \
+    ros-humble-rosbag2 ros-humble-rosbag2-storage \
+    ros-humble-cv-bridge ros-humble-image-transport \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Gazebo Harmonic
+RUN curl -sSL https://packages.osrfoundation.org/gazebo.gpg | apt-key add - && \
+    echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list && \
+    apt-get update && apt-get install -y gz-harmonic && \
+    rm -rf /var/lib/apt/lists/*
+
+# Setup ROS 2
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+
+# Create workspace
+WORKDIR /workspace
+RUN mkdir -p src
+
+# Copy source
+COPY . /workspace/
+
+# Build PX4 SITL
+RUN cd /workspace/Firmware && \
+    make px4_sitl_default 2>&1 | tail -20
+
+# Build ROS 2 workspace
+RUN cd /workspace/src/companion && \
+    /opt/ros/humble/setup.bash && \
+    colcon build --symlink-install 2>&1 | tail -20
+
+# Entry point
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["bash"]

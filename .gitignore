@@ -1,0 +1,84 @@
+# Drone Swarm Autonomy Stack - .gitignore
+
+# Build outputs
+build/
+bin/
+obj/
+out/
+*.o
+*.so
+*.a
+*.exe
+*.dll
+*.elf
+*.hex
+*.bin
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ROS 2
+install/
+log/
+build_isolated/
+devel_isolated/
+*.rosinstall
+
+# Gazebo
+~/.gazebo/models/*/
+*.world.bak
+
+# PX4 Firmware
+Firmware/build/
+Firmware/*.log
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+*.env
+
+# Temporary
+*.tmp
+*.temp
+temp/
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Model artifacts
+*.engine
+*.onnx
+*.pt
+*.pth
+models/*.bin

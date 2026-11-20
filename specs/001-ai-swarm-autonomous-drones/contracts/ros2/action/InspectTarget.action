@@ -1,0 +1,41 @@
+# InspectTarget.action
+# Inspect a specific point of interest
+# Goal
+geometry_msgs/Vector3 target_position_enu  # POI position
+geometry_msgs/Quaternion view_orientation  # Desired camera orientation
+float32 inspection_distance_m            # Standoff distance
+float32 max_approach_speed_mps
+InspectionType type                      # VISUAL, THERMAL, LIDAR, MULTISPECTRAL
+float32 required_resolution_mpp          # Meters per pixel
+uint32 max_duration_s
+---
+# Result
+bool success
+string message
+InspectionResult result
+---
+# Feedback
+float32 progress                         # 0.0-1.0
+geometry_msgs/Vector3 current_position
+geometry_msgs/Quaternion current_orientation
+float32 distance_to_target
+AIInference[] detections                 # Real-time detections
+CommQoS[] mesh_links
+
+---
+# InspectionType
+uint8 VISUAL = 0
+uint8 THERMAL = 1
+uint8 LIDAR = 2
+uint8 MULTISPECTRAL = 3
+
+---
+# InspectionResult
+bool success
+string message
+geometry_msgs/Vector3 final_position
+geometry_msgs/Quaternion final_orientation
+sensor_msgs/Image[] images               # Captured images
+sensor_msgs/PointCloud2 pointcloud       # If LIDAR
+float32 achieved_resolution_mpp
+FlightLogSummary log_summary

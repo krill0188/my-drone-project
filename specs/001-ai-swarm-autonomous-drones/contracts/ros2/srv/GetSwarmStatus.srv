@@ -1,0 +1,17 @@
+# GetSwarmStatus.srv
+# Query current swarm status
+uint16 requester_id                    # Requesting entity
+---
+SwarmStatus status
+---
+# SwarmStatus
+uint64 timestamp_us
+uint16[] active_drones                 # Sysids of active drones
+uint8[] drone_roles                    # Per drone: 0=IDLE, 1=LEADER, 2=FOLLOWER, 3=SCOUT, 4=RELAY
+uint8[] drone_modes                    # Per drone flight mode
+float32[] battery_pct                  # Per drone
+uint32 formation_id                    # Current formation (0=none)
+FormationState formation               # Detailed formation state
+MissionStatus mission                  # Current mission status
+CommQoS[] mesh_links                   # Mesh topology QoS
+uint32 sequence

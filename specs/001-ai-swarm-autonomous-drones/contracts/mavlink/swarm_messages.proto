@@ -1,0 +1,289 @@
+syntax = "proto3";
+
+package swarm.mavlink;
+
+option cc_enable_arenas = true;
+
+// ============================================================
+// SWARM_FORMATION_SET: Leader → Followers (geometry, offsets, gains)
+// MAVLink MSG_ID: 30000 (custom)
+// ============================================================
+message SwarmFormationSet {
+  uint32 timestamp_us = 1;           // Monotonic microseconds
+  uint16 leader_id = 2;              // MAVLink sysid of leader
+  uint32 formation_id = 3;           // Formation instance ID
+  FormationGeometry geometry = 4;    // Geometry template
+  FormationTolerances tolerances = 5; // Maintenance bounds
+  repeated FormationSlot slots = 6;  // Per-follower assigned slots
+  uint32 sequence = 7;               // Monotonic sequence for freshness
+}
+
+message FormationGeometry {
+  enum Type { LINE = 0; VEE = 1; DIAMOND = 2; COLUMN = 3; CUSTOM = 4; }
+  Type type = 1;
+  repeated Vector3 relative_positions = 2; // FLU frame, leader body
+  float spacing_m = 3;
+  float altitude_offset_m = 4;
+  float heading_offset_deg = 5;
+}
+
+message FormationTolerances {
+  float max_lateral_error_m = 1;
+  float max_vertical_error_m = 2;
+  float max_velocity_error_mps = 3;
+  float max_yaw_error_deg = 4;
+  float rejoin_timeout_s = 5;
+  float replan_propagation_ms = 6;
+}
+
+message FormationSlot {
+  uint16 follower_id = 1;
+  Vector3 offset_flu = 2;      // Relative position in leader FLU
+  float gain_xy = 3;           // Position control gain
+  float gain_z = 4;
+  float gain_yaw = 5;
+}
+
+message Vector3 {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+// ============================================================
+// SWARM_FORMATION_STATE: Follower → Leader (position error, status)
+// MAVLink MSG_ID: 30001
+// ============================================================
+message SwarmFormationState {
+  uint32 timestamp_us = 1;
+  uint16 follower_id = 2;
+  uint32 formation_id = 3;
+  Vector3 position_error_flu = 4;   // Current error in leader FLU
+  Vector3 velocity_error_flu = 5;
+  float yaw_error_deg = 6;
+  FormationStatus status = 7;       // FORMING, HOLDING, REJOINING, LOST
+  uint32 sequence = 8;
+}
+
+enum FormationStatus {
+  FORMING = 0;
+  HOLDING = 1;
+  REJOINING = 2;
+  LOST = 3;
+  DISSOLVING = 4;
+}
+
+// ============================================================
+// TASK_ALLOCATION_BID: Drone → Swarm (task_id, cost, capability)
+// MAVLink MSG_ID: 30002
+// ============================================================
+message TaskAllocationBid {
+  uint32 timestamp_us = 1;
+  uint16 drone_id = 2;
+  bytes task_id = 3;                // UUID (16 bytes)
+  float cost = 4;                   // Lower = better (energy, time, risk)
+  CapabilityBitmap capabilities = 5; // Bidder capabilities
+  uint32 sequence = 6;
+}
+
+message CapabilityBitmap {
+  bool has_rtk_gps = 1;
+  bool has_stereo_camera = 2;
+  bool has_lidar_2d = 3;
+  bool has_lidar_3d = 4;
+  bool has_uwb = 5;
+  bool has_5g_modem = 6;
+  bool has_ai_compute = 7;
+  uint16 max_flight_time_s = 8;
+  float max_payload_kg = 9;
+  uint8 comm_tier_bitmap = 10;      // bit0=WiFi6E, bit1=5G, bit2=LoRa
+}
+
+// ============================================================
+// TASK_ALLOCATION_AWARD: Swarm → Drone (task_id, assignment)
+// MAVLink MSG_ID: 30003
+// ============================================================
+message TaskAllocationAward {
+  uint32 timestamp_us = 1;
+  uint16 drone_id = 2;              // Assigned drone
+  bytes task_id = 3;                // UUID (16 bytes)
+  uint32 award_sequence = 4;        // Allocation round
+  float awarded_cost = 5;
+  uint32 sequence = 6;
+}
+
+// ============================================================
+// AI_INFERENCE_REPORT: Drone → Swarm (type, class, confidence, position)
+// MAVLink MSG_ID: 30004
+// ============================================================
+message AIInferenceReport {
+  uint32 timestamp_us = 1;
+  uint16 drone_id = 2;
+  InferenceType type = 3;
+  uint16 class_id = 4;
+  string class_name = 5;
+  float confidence = 6;
+  Vector3 position_enu = 7;         // ENU frame, valid if type=OBSTACLE/LANDING
+  Box3D bounding_box = 8;           // Valid for OBSTACLE
+  InferenceMetadata metadata = 9;
+  uint32 sequence = 10;
+}
+
+enum InferenceType {
+  OBSTACLE = 0;
+  LANDING_SITE = 1;
+  FAULT = 2;
+  ANOMALY = 3;
+}
+
+message Box3D {
+  Vector3 center = 1;
+  Vector3 size = 2;                 // dx, dy, dz
+  Quaternion orientation = 3;       // ENU from box
+}
+
+message Quaternion {
+  float w = 1;
+  float x = 2;
+  float y = 3;
+  float z = 4;
+}
+
+message InferenceMetadata {
+  uint32 latency_ms = 1;
+  string model_name = 2;
+  string model_version = 3;
+  string runtime = 4;               // "tensorrt_fp16", "onnxruntime"
+  ObstacleMeta obstacle = 5;
+  LandingMeta landing = 6;
+  FaultMeta fault = 7;
+}
+
+message ObstacleMeta {
+  enum ThreatLevel { LOW = 0; MEDIUM = 1; HIGH = 2; CRITICAL = 3; }
+  ThreatLevel threat = 1;
+  Vector3 relative_velocity = 2;
+  float time_to_collision_s = 3;
+  bool requires_immediate_avoidance = 4;
+}
+
+message LandingMeta {
+  float slope_deg = 1;
+  float clearance_radius_m = 2;
+  enum SurfaceType { GRASS = 0; CONCRETE = 1; DIRT = 2; SAND = 3; WATER = 4; UNKNOWN = 5; }
+  SurfaceType surface = 3;
+  float firmness_score = 4;
+}
+
+message FaultMeta {
+  enum FaultType { IMU_DRIFT = 0; GPS_SPOOF = 1; MOTOR_DEGRADE = 2; BATTERY_IMBALANCE = 3; SENSOR_FAULT = 4; COMM_DEGRADE = 5; }
+  FaultType type = 1;
+  enum Severity { INFO = 0; WARNING = 1; CRITICAL = 2; EMERGENCY = 3; }
+  Severity severity = 2;
+  string affected_component = 3;
+  float degradation_pct = 4;
+  bool requires_replan = 5;
+  enum Action { CONTINUE = 0; DEGRADED = 1; RTL = 2; EMERGENCY_LAND = 3; }
+  Action recommended_action = 6;
+}
+
+// ============================================================
+// SAFETY_EVENT: Any → All (geofence_breach, emergency_stop, rid_status)
+// MAVLink MSG_ID: 30005
+// ============================================================
+message SafetyEvent {
+  uint32 timestamp_us = 1;
+  uint16 source_id = 2;
+  SafetyEventType type = 3;
+  SafetyEventSeverity severity = 4;
+  Vector3 position_enu = 5;         // Event location
+  string details = 6;               // Human-readable
+  uint32 sequence = 7;
+}
+
+enum SafetyEventType {
+  GEOFENCE_BREACH = 0;
+  EMERGENCY_STOP = 1;
+  RID_STATUS = 2;
+  CRITICAL_FAULT = 3;
+  COMMS_LOST = 4;
+  LEADER_FAIL = 5;
+}
+
+enum SafetyEventSeverity {
+  INFO = 0;
+  WARNING = 1;
+  CRITICAL = 2;
+  EMERGENCY = 3;
+}
+
+// ============================================================
+// HUMAN_INTENT_CMD: GCS → Swarm (intent_type, parameters, priority)
+// MAVLink MSG_ID: 30006
+// ============================================================
+message HumanIntentCmd {
+  uint32 timestamp_us = 1;
+  uint16 target_id = 2;             // 0 = broadcast to swarm
+  IntentType type = 3;
+  repeated IntentParameter params = 4;
+  uint8 priority = 5;               // 1 = highest
+  uint32 sequence = 6;
+}
+
+enum IntentType {
+  SEARCH_AREA = 0;
+  FOLLOW_ME = 1;
+  INSPECT_TARGET = 2;
+  RETURN_HOME = 3;
+  HOLD_POSITION = 4;
+  EMERGENCY_STOP = 5;
+  FORMATION_CHANGE = 6;
+  MISSION_ABORT = 7;
+}
+
+message IntentParameter {
+  string key = 1;
+  string value = 2;                 // JSON-encoded for complex types
+}
+
+// ============================================================
+// SWARM_COMM_QOS: Mesh link quality report
+// MAVLink MSG_ID: 30007
+// ============================================================
+message SwarmCommQoS {
+  uint32 timestamp_us = 1;
+  uint16 src_id = 2;
+  uint16 dst_id = 3;
+  LinkType link_type = 4;
+  LinkQoS qos = 5;
+  repeated uint16 route = 6;        // Multi-hop path
+  LinkStatus status = 7;
+  uint32 sequence = 8;
+}
+
+enum LinkType {
+  WIFI_6E = 0;
+  FIVE_G_NR = 1;
+  LORA = 2;
+  MAVLINK_SERIAL = 3;
+}
+
+enum LinkStatus {
+  UP = 0;
+  DEGRADED = 1;
+  DOWN = 2;
+  STORE_FORWARD = 3;
+}
+
+message LinkQoS {
+  float latency_ms_p50 = 1;
+  float latency_ms_p99 = 2;
+  float packet_loss_pct = 3;
+  float bandwidth_mbps = 4;
+  float rssi_dbm = 5;
+  float snr_db = 6;
+  uint32 tx_bytes = 7;
+  uint32 rx_bytes = 8;
+  uint32 tx_errors = 9;
+  uint32 rx_errors = 10;
+}
