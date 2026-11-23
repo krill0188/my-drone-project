@@ -408,15 +408,15 @@ tests/
 
 **Purpose**: Improvements that affect multiple user stories, final validation, documentation
 
-- [ ] T142 [P] Update Architecture Decision Records (ADR) in .specify/memory/adr/ for all 8 research decisions
-- [ ] T143 [P] Generate complete ICD documentation from contracts/ → docs/icd/
-- [ ] T144 [P] Create developer onboarding guide (build, test, deploy) in docs/onboarding.md
+- [X] T142 [P] Update Architecture Decision Records (ADR) in .specify/memory/adr/ for all 8 research decisions
+- [X] T143 [P] Generate complete ICD documentation from contracts/ → docs/icd/
+- [X] T144 [P] Create developer onboarding guide (build, test, deploy) in docs/onboarding.md
+- [X] T149 [P] Additional unit tests for uncovered modules (target ≥ 90% branch coverage per constitution)
+- [X] T150 [P] Run Constitution compliance check: traceability matrix complete, all principles validated
 - [ ] T145 Run full quickstart.md validation suite (all 8 scenarios) in SITL
 - [ ] T146 Run HIL validation on Pixhawk 6C / Cube Orange+ (geofence, RID, estop)
 - [ ] T147 [P] Performance optimization: TensorRT engine tuning, DDS QoS optimization, formation control gains
 - [ ] T148 Security hardening: Penetration test mesh network, verify signed OTA, encrypted MAVLink
-- [ ] T149 [P] Additional unit tests for uncovered modules (target ≥ 90% branch coverage per constitution)
-- [ ] T150 Run Constitution compliance check: traceability matrix complete, all principles validated
 - [ ] T151 Prepare airworthiness configuration: v1.0.0-airworthy tag, param files, launch files as code
 - [ ] T152 Create release notes and migration guide for v1.0.0
 
