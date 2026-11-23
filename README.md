@@ -348,3 +348,39 @@ MIT License - see [LICENSE](LICENSE) for details.
 ---
 
 > **Built with SpecKit** - Specification-driven development for safety-critical autonomous systems.
+
+
+
+
+## v0.5.0 - US4 Safety & Compliance + Web Dashboard
+
+### 🎯 주요 완성 사항
+
+#### US4 Safety & Compliance (P2) - 22/27 완료 (81.5%)
+- **펌웨어 안전 모니터 (DAL A)**: 지오펜스, RID, 비상정지 + 리더 장애 복구(불리 선거)
+- **컴패니언 안전**: 지오펜스/이중체크, RID 준수, 비상정지 핸들러
+- **계약 테스트**: HumanIntentCmd/SAFETY_EVENT MAVLink/ROS2 검증
+- **HSI**: 인텐트 파서, 음성/태블릿 인터페이스, 미션 업로더
+- **텔레메트리**: rosbag2 실시간 스트림, 로그 동기화, 분석기
+- **QGC 플러그인**: 미션 플래너, 모니터, 사후 분석기
+
+#### Web Dashboard (React 18 + TypeScript + Vite)
+- Live View: 실시간 지도, 플릿 요약, 포메이션, 안전 이벤트
+- Replay: 타임라인 스크러빙, 재생 제어, 차트 동기화
+- Analytics: 플릿 KPI, 레이더 비교, 포메이션 CDF, AI 타임라인, QoS 분석, 자동 리포트
+
+#### Phase 7 문서화 (T142-T150 중 5개 완료)
+- T142: 8개 ADR 문서 (아키텍처 결정 기록)
+- T143: ICD 자동 생성 스크립트
+- T144: 개발자 온보딩 가이드
+- T149: 추가 단위 테스트 (리더 장애/스플릿-브레인)
+- T150: 헌법 준수 검증 스크립트
+
+### 📊 진행률
+- **전체: 137/152 (90.1%)**
+- **US4 Safety: 22/27 (81.5%)**
+
+### 🚀 다음 단계
+- T145: SITL 시나리오 검증 (8개)
+- T146: Pixhawk 6C / Cube Orange+ HIL 검증
+- T147~T152: 성능 최적화, 보안, 감항성, 릴리즈
