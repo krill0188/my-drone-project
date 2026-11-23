@@ -272,7 +272,7 @@ Constitution → Spec → Plan → Tasks → Implement
 | Spec | `specs/001/spec.md` | ✅ |
 | Plan | `specs/001/plan.md` | ✅ |
 | Tasks | `specs/001/tasks.md` | ✅ (152 tasks) |
-| Implement | `src/` | 🚧 132/152 |
+| Implement | `src/` | 🚧 137/152 |
 
 ---
 
