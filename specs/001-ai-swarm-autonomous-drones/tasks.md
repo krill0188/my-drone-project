@@ -393,12 +393,12 @@ tests/
 - [X] T137 [US4] Implement swarm mission planner (waypoint, search polygon, inspect targets) in src/ground/gcs/swarm_mission_planner/
 - [X] T138 [US4] Implement swarm monitor (real-time formation, health, mesh QoS) in src/ground/gcs/swarm_monitor/
 - [X] T139 [US4] Implement post-flight analyzer (coverage heatmap, formation error CDF, AI timeline, QoS) per SC-014 in src/ground/gcs/post_flight_analyzer/
-- [ ] T140 [US4] Implement web dashboard (React/TypeScript) for live view, replay, analytics in src/ground/dashboard/
+- [X] T140 [US4] Implement web dashboard (React/TypeScript) for live view, replay, analytics in src/ground/dashboard/
 
 #### 6.6 Edge Cases (spec.md Edge Cases 1, 2)
 
-- [ ] T140 [US4] Implement leader failure → bully election integration with safety monitor in src/firmware/modules/swarm_safety/leader_fail_safety.cpp
-- [ ] T141 [US4] Implement split-brain merge protocol with safety state reconciliation in src/companion/swarm_comm/consensus/merge_protocol.cpp
+- [X] T140 [US4] Implement leader failure → bully election integration with safety monitor in src/firmware/modules/swarm_safety/leader_fail_safety.cpp
+- [X] T141 [US4] Implement split-brain merge protocol with safety state reconciliation in src/companion/swarm_comm/consensus/merge_protocol.cpp
 
 **Checkpoint**: User Story 4 fully functional and independently testable (run Scenarios 6, 7, 8 from quickstart.md)
 

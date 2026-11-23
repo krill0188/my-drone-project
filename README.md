@@ -19,7 +19,7 @@ A **fully autonomous multi-drone swarm system** implementing:
 | **Formation Flight** (Leader-Follower) | ✅ 27/27 | P1 |
 | **Task Allocation** (CBBA Consensus) | ✅ 31/31 | P1 |
 | **AI Perception** (Obstacle/Landing/Fault) | ✅ 27/27 | P2 |
-| **Safety & Compliance** (DAL A) | 🚧 20/27 | P2 |
+| **Safety & Compliance** (DAL A) | 🚧 22/27 | P2 |
 | **Ground Station** (QGC Plugin + Web) | 🚧 2/4 | P2 |
 
 ---
@@ -221,7 +221,9 @@ my-drone-project/
 - ✅ **T137**: Swarm Mission Planner (QGC plugin, waypoint/polygon/inspect, CBBA, Python backend)
 - ✅ **T138**: Swarm Monitor (real-time formation, health, mesh QoS, safety events, Python backend)
 - ✅ **T139**: Post-Flight Analyzer (coverage heatmap, formation CDF, AI timeline, QoS, auto-reports)
-- 🚧 T140-T141: Web dashboard, Edge cases
+- ✅ **T140**: Leader Failure → Bully Election + Safety Monitor Integration (DAL A firmware)
+- ✅ **T141**: Split-Brain Merge Protocol + Safety State Reconciliation (Companion)
+- 🚧 Phase 7: Polish & Cross-Cutting Concerns
 
 ---
 
@@ -270,7 +272,7 @@ Constitution → Spec → Plan → Tasks → Implement
 | Spec | `specs/001/spec.md` | ✅ |
 | Plan | `specs/001/plan.md` | ✅ |
 | Tasks | `specs/001/tasks.md` | ✅ (152 tasks) |
-| Implement | `src/` | 🚧 130/152 |
+| Implement | `src/` | 🚧 132/152 |
 
 ---
 

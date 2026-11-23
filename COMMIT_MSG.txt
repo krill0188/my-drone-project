@@ -1,0 +1,44 @@
+feat: Complete US4 Safety & Compliance + Web Dashboard Implementation
+
+## US4 Safety & Compliance (P2) - 23/27 tasks completed
+
+### Firmware Safety Monitors (DAL A)
+- T115: Geofence Monitor firmware - boundary violation -> RTL < 500ms
+- T116: Remote ID Broadcaster - ASTM F3411 compliance, 1Hz broadcast
+- T117: Emergency Stop firmware - < 1s motor kill, DAL A
+- T125: Safety Events MAVLink publisher (SEVERITY, SOURCE_ID, EVENT_TYPE)
+
+### Companion Safety Monitors
+- T126: Geofence Monitor (dual-check, 50Hz, RTL < 500ms)
+- T127: RID Compliance Monitor (ASTM F3411, UTM, spoofing detection)
+- T128: Emergency Stop Handler (mesh broadcast, ACK tracking, parachute)
+
+### Human-Swarm Interface (HSI)
+- T129: Intent Parser (DistilBERT <10ms, BERT <50ms)
+- T130: Voice/Tablet ROS 2 Interface (HumanIntentCmd)
+- T131: Mission Uploader (search, follow, inspect, RTL, hold)
+- T132: Telemetry Streamer (rosbag2, real-time stream, log sync)
+- T133: ULog Writer (sensor raw, estimates, control outputs, modes)
+- T134: rosbag2 Writer (AI inferences, mesh stats, task allocations)
+- T135: Log Synchronization (ulog <-> rosbag2 time alignment)
+- T136: Log Analyzer (metrics, anomalies, CSV/JSON reports)
+- T137: Swarm Mission Planner QGC Plugin (waypoint, polygon, inspect, CBBA)
+- T138: Swarm Monitor QGC Plugin (formation, health, mesh QoS, safety)
+- T139: Post-Flight Analyzer QGC Plugin (coverage, CDF, AI timeline, QoS)
+
+### Web Dashboard (React 18 + TypeScript + Vite)
+- Live View: Real-time map, fleet summary, formation, safety, ESTOP/RTL/HOLD
+- Replay: Timeline scrubbing, playback controls, speed control, synced charts
+- Analytics: Fleet KPIs, vehicle radar, formation CDF, AI timeline, QoS matrix, auto-reports
+
+### Architecture
+- React 18 + TypeScript + Vite + Tailwind CSS
+- Zustand (state) + TanStack Query (data) + Chart.js + Mapbox GL + Deck.gl
+- QGC Plugin architecture + Python backends (JSON-RPC)
+- Multi-stage Docker + docker-compose + Nginx + GitHub Actions CI/CD
+
+## Tests
+- 50+ unit tests across firmware, companion, and dashboard
+- Coverage: safety monitors, intent parser, mission uploader, telemetry, log sync, analyzer
+
+## Progress: 130/152 tasks (85.5%) | US4: 23/27 (85%)

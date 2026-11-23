@@ -22,6 +22,7 @@ add_library(${PROJECT_NAME}
   src/swarm_safety.cpp
   src/safety_events.cpp
   src/flight_logger.cpp
+  src/leader_fail_safety.cpp
 )
 
 ament_target_dependencies(${PROJECT_NAME}

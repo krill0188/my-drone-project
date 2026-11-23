@@ -16,6 +16,7 @@ add_library(${PROJECT_NAME}
   src/consensus.cpp
   src/resync.cpp
   src/split_brain.cpp
+  src/merge_protocol.cpp
 )
 
 ament_target_dependencies(${PROJECT_NAME} rclcpp swarm_msgs swarm_comm)
