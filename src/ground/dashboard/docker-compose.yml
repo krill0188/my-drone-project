@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # Frontend Dashboard
+  dashboard:
+    build:
+      context: ./src/ground/dashboard
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_MAPBOX_TOKEN=${MAPBOX_TOKEN}
+      - VITE_API_URL=http://backend:8080/api
+      - VITE_WS_URL=ws://backend:8080/ws
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Backend API (placeholder - replace with actual backend)
+  backend:
+    image: node:18-alpine
+    working_dir: /app
+    command: >
+      sh -c "npm install -g http-server && 
+             echo '{"health": "ok"}' > health.json && 
+             http-server -p 8080 -c-1 --cors"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/backend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis for caching/session
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL for persistent data (optional)
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: swarm_dashboard
+      POSTGRES_USER: swarm
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-swarm_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U swarm -d swarm_dashboard"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Mosquitto MQTT Broker (for drone communication)
+  mosquitto:
+    image: eclipse-mosquitto:2-alpine
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_logs:/mosquitto/logs
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "5"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  redis_data:
+  postgres_data:
+  mosquitto_data:
+  mosquitto_logs:
+
+networks:
+  default:
+    name: swarm-network
+    driver: bridge

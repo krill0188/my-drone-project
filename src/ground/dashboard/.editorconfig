@@ -1,0 +1,60 @@
+# EditorConfig for Swarm Dashboard
+# https://editorconfig.org
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{ts,tsx,js,jsx,json,css,scss,html,md,mdx}]
+indent_size = 2
+
+[*.{yaml,yml}]
+indent_size = 2
+
+[*.{py,pyi}]
+indent_size = 4
+
+[*.{sh,bash,zsh}]
+indent_size = 2
+
+[*.{dockerfile,Dockerfile}]
+indent_size = 2
+
+[Makefile]
+indent_style = tab
+
+[*.{toml,ini,cfg}]
+indent_size = 2
+
+[*.{tf,tfvars}]
+indent_size = 2
+
+[*.{sql,proto}]
+indent_size = 2
+
+[*.{xml,svg}]
+indent_size = 2
+
+[*.{css,scss,sass,less}]
+indent_size = 2
+
+[*.{cs,csx}]
+indent_size = 4
+
+[*.{go,rs,kt,kts}]
+indent_size = 4
+
+[*.{java,kt}]
+indent_size = 4
+
+[*.{cpp,c,h,hpp}]
+indent_size = 4
+
+[*.{swift}]
+indent_size = 4

@@ -1,0 +1,30 @@
+{
+    "name": "SwarmMissionPlanner",
+    "version": "1.0.0",
+    "description": "Multi-drone swarm mission planning: waypoint, search polygon, inspect targets with CBBA allocation",
+    "author": "AI Swarm Team",
+    "license": "BSD-3-Clause",
+    "qgcVersion": "4.2.0",
+    "dependencies": [],
+    "provides": [
+        "SwarmMissionPlanner"
+    ],
+    "requires": [
+        "MissionManager",
+        "VehicleManager",
+        "LinkManager",
+        "CustomCommandWidget"
+    ],
+    "files": [
+        "SwarmMissionPlannerPlugin.cc",
+        "SwarmMissionPlannerPlugin.h",
+        "qml/SwarmMissionPlanner.qml",
+        "qml/SwarmMissionEditor.qml",
+        "qml/SwarmSearchPolygonEditor.qml",
+        "qml/SwarmInspectTargetEditor.qml",
+        "qml/SwarmCBBAAllocationView.qml",
+        "qml/components/SwarmVehicleSelector.qml",
+        "qml/components/SwarmWaypointListModel.qml",
+        "python/swarm_mission_backend.py"
+    ]
+}

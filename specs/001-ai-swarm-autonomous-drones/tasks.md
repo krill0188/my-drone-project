@@ -370,29 +370,30 @@ tests/
 
 #### 6.2 Companion Safety Monitors (src/companion/swarm_safety/)
 
-- [ ] T126 [US4] Geofence monitor companion: duplicate check, telemetry stream in src/companion/swarm_safety/geofence_monitor/
-- [ ] T127 [US4] RID compliance monitor: frame validation, UTM interface in src/companion/swarm_safety/rid_broadcaster/
-- [ ] T128 [US4] Emergency stop handler: mesh broadcast, acknowledgment tracking in src/companion/swarm_safety/emergency_stop/
+- [X] T126 [US4] Geofence monitor companion: duplicate check, telemetry stream in src/companion/swarm_safety/geofence_monitor/
+- [X] T127 [US4] RID compliance monitor: frame validation, UTM interface in src/companion/swarm_safety/rid_broadcaster/
+- [X] T128 [US4] Emergency stop handler: mesh broadcast, acknowledgment tracking in src/companion/swarm_safety/emergency_stop/
 
 #### 6.3 Human-Swarm Interface (src/companion/swarm_interface/)
 
-- [ ] T129 [US4] Implement intent parser (on-device DistilBERT for critical, BERT for mission) per research.md Decision 8 in src/companion/swarm_interface/intent_parser/
-- [ ] T130 [US4] Implement voice/tablet ROS 2 interface (HumanIntentCmd) in src/companion/swarm_interface/intent_parser/intent_node.cpp
-- [ ] T131 [US4] Implement mission uploader for high-level intents (search area, follow me, inspect, RTL, hold) in src/companion/swarm_interface/mission_uploader/
-- [ ] T132 [US4] Implement telemetry streamer (real-time monitoring, dashboard feed) in src/companion/swarm_interface/telemetry_streamer/
+- [X] T129 [US4] Implement intent parser (on-device DistilBERT for critical, BERT for mission) per research.md Decision 8 in src/companion/swarm_interface/intent_parser/
+- [X] T130 [US4] Implement voice/tablet ROS 2 interface (HumanIntentCmd) in src/companion/swarm_interface/intent_parser/intent_node.cpp
+- [X] T131 [US4] Implement mission uploader for high-level intents (search area, follow me, inspect, RTL, hold) in src/companion/swarm_interface/mission_uploader/
+- [X] T132 [US4] Implement telemetry streamer (real-time monitoring, dashboard feed) in src/companion/swarm_interface/telemetry_streamer/
 
 #### 6.4 Flight Logging & Audit Trail (FR-015, Constitution Principle V)
 
-- [ ] T133 [US4] Implement ulog writer (firmware: sensor raw, state estimates, control outputs, mode transitions) in src/firmware/modules/swarm_safety/flight_logger.cpp
-- [ ] T134 [US4] Implement rosbag2 writer (companion: AI inferences, mesh stats, task allocations, map fusions) in src/companion/swarm_interface/telemetry_streamer/rosbag_writer.cpp
-- [ ] T135 [US4] Implement log synchronization (time alignment firmware ↔ companion) in src/companion/swarm_interface/telemetry_streamer/log_sync.cpp
+- [X] T133 [US4] Implement ulog writer (firmware: sensor raw, state estimates, control outputs, mode transitions) in src/firmware/modules/swarm_safety/flight_logger.cpp
+- [X] T134 [US4] Implement rosbag2 writer (companion: AI inferences, mesh stats, task allocations, map fusions) in src/companion/swarm_interface/telemetry_streamer/rosbag_writer.cpp
+- [X] T135 [US4] Implement log synchronization (time alignment firmware ↔ companion) in src/companion/swarm_interface/telemetry_streamer/log_sync.cpp
+- [X] T136 [US4] Implement log analyzer (metrics extraction, anomaly detection, CSV/JSON reports) in src/companion/swarm_interface/telemetry_streamer/log_analyzer.cpp
 
 #### 6.5 Ground Station Integration (src/ground/gcs/)
 
-- [ ] T136 [US4] Implement swarm mission planner (waypoint, search polygon, inspect targets) in src/ground/gcs/swarm_mission_planner/
-- [ ] T137 [US4] Implement swarm monitor (real-time formation, health, mesh QoS) in src/ground/gcs/swarm_monitor/
-- [ ] T138 [US4] Implement post-flight analyzer (coverage heatmap, formation error CDF, AI timeline, QoS) per SC-014 in src/ground/gcs/post_flight_analyzer/
-- [ ] T139 [US4] Implement web dashboard (React/TypeScript) for live view, replay, analytics in src/ground/dashboard/
+- [X] T137 [US4] Implement swarm mission planner (waypoint, search polygon, inspect targets) in src/ground/gcs/swarm_mission_planner/
+- [X] T138 [US4] Implement swarm monitor (real-time formation, health, mesh QoS) in src/ground/gcs/swarm_monitor/
+- [X] T139 [US4] Implement post-flight analyzer (coverage heatmap, formation error CDF, AI timeline, QoS) per SC-014 in src/ground/gcs/post_flight_analyzer/
+- [ ] T140 [US4] Implement web dashboard (React/TypeScript) for live view, replay, analytics in src/ground/dashboard/
 
 #### 6.6 Edge Cases (spec.md Edge Cases 1, 2)
 
@@ -540,7 +541,7 @@ With 4 developers:
 | Phase 3: US1 (P1) | T030-T056 | 27 | **COMPLETE** - Formation & Leader-Follower |
 | Phase 4: US2 (P1) | T057-T087 | 31 | **COMPLETE** - Task Allocation & Cooperative Mobility |
 | Phase 5: US3 (P2) | T088-T114 | 27 | **COMPLETE** - AI Perception & Adaptation |
-| Phase 6: US4 (P2) | T115-T141 | 27 | **Started** - Geofence, RID, Estop, Flight Plan, HSI, Logging |
+| Phase 6: US4 (P2) | T115-T141 | 27 | **In Progress** - Geofence, RID, Estop, Flight Plan, HSI, Logging, Mission Upload, Telemetry |
 | Phase 7: Polish | T142-T152 | 11 | Cross-cutting, validation, release |
 
 **Total Tasks: 152**

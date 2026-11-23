@@ -19,7 +19,8 @@ A **fully autonomous multi-drone swarm system** implementing:
 | **Formation Flight** (Leader-Follower) | ✅ 27/27 | P1 |
 | **Task Allocation** (CBBA Consensus) | ✅ 31/31 | P1 |
 | **AI Perception** (Obstacle/Landing/Fault) | ✅ 27/27 | P2 |
-| **Safety & Compliance** (DAL A) | 🚧 12/27 | P2 |
+| **Safety & Compliance** (DAL A) | 🚧 20/27 | P2 |
+| **Ground Station** (QGC Plugin + Web) | 🚧 2/4 | P2 |
 
 ---
 
@@ -157,7 +158,11 @@ my-drone-project/
 │   │   │   ├── geofence_monitor/    # T126 ✅
 │   │   │   ├── rid_broadcaster/     # T127 ✅
 │   │   │   └── emergency_stop/      # T128 ✅
-│   │   ├── swarm_interface/         # HSI, mission uploader
+│   │   ├── swarm_interface/         # HSI, mission uploader, intent parser
+│   │   │   ├── intent_parser/       # T129 ✅
+│   │   │   ├── intent_node/         # T130 ✅
+│   │   │   ├── mission_uploader/    # T131 ✅
+│   │   │   └── telemetry_streamer/  # T132 ✅
 │   │   └── setup_ros2_ws.sh
 │   ├── simulation/              # Gazebo SITL, scenarios
 │   ├── ground/                  # Ground station (React/TS)
@@ -200,12 +205,23 @@ my-drone-project/
 - **Fault Detection**: LSTM (IMU drift, GPS spoof, motor degrade, battery imbalance)
 - **AI-Replan Integration**: < 100ms trigger, VIO+UWB fusion, Conservative fallback
 
-### US4: Safety & Compliance (P2) - **12/27 🚧**
+### US4: Safety & Compliance (P2) - **16/27 🚧**
 - ✅ **T115-T125**: Firmware DAL A monitors (Geofence, RID, Estop, Events)
 - ✅ **T126**: Companion Geofence Monitor (dual-check, 50Hz, RTL < 500ms)
 - ✅ **T127**: RID Compliance Monitor (ASTM F3411, UTM, Spoofing detection)
 - ✅ **T128**: Emergency Stop Handler (mesh broadcast, ACK tracking, parachute)
-- 🚧 T129-T141: HSI, Flight logging, Ground station, Edge cases
+- ✅ **T129**: Intent Parser (DistilBERT critical <10ms, BERT mission <50ms)
+- ✅ **T130**: Voice/Tablet ROS 2 Interface (HumanIntentCmd)
+- ✅ **T131**: Mission Uploader (search, follow, inspect, RTL, hold templates)
+- ✅ **T132**: Telemetry Streamer (rosbag2, real-time stream, log sync)
+- ✅ **T133**: ULog Writer (sensor raw, estimates, control, modes)
+- ✅ **T134**: rosbag2 Writer (AI inferences, mesh stats, task allocs, map fusions)
+- ✅ **T135**: Log Synchronization (ulog ↔ rosbag2 time alignment, drift correction)
+- ✅ **T136**: Log Analyzer (metrics, anomalies, CSV/JSON reports)
+- ✅ **T137**: Swarm Mission Planner (QGC plugin, waypoint/polygon/inspect, CBBA, Python backend)
+- ✅ **T138**: Swarm Monitor (real-time formation, health, mesh QoS, safety events, Python backend)
+- ✅ **T139**: Post-Flight Analyzer (coverage heatmap, formation CDF, AI timeline, QoS, auto-reports)
+- 🚧 T140-T141: Web dashboard, Edge cases
 
 ---
 
@@ -254,7 +270,7 @@ Constitution → Spec → Plan → Tasks → Implement
 | Spec | `specs/001/spec.md` | ✅ |
 | Plan | `specs/001/plan.md` | ✅ |
 | Tasks | `specs/001/tasks.md` | ✅ (152 tasks) |
-| Implement | `src/` | 🚧 118/152 |
+| Implement | `src/` | 🚧 130/152 |
 
 ---
 

@@ -1,0 +1,29 @@
+{
+    "name": "PostFlightAnalyzer",
+    "version": "1.0.0",
+    "description": "Post-flight analysis: coverage heatmap, formation error CDF, AI timeline, QoS analysis, automated reports per SC-014",
+    "author": "AI Swarm Team",
+    "license": "BSD-3-Clause",
+    "qgcVersion": "4.2.0",
+    "dependencies": [],
+    "provides": [
+        "PostFlightAnalyzer"
+    ],
+    "requires": [
+        "MissionManager",
+        "VehicleManager",
+        "LinkManager",
+        "CustomCommandWidget"
+    ],
+    "files": [
+        "PostFlightAnalyzerPlugin.cc",
+        "PostFlightAnalyzerPlugin.h",
+        "qml/PostFlightAnalyzer.qml",
+        "qml/components/CoverageHeatmapView.qml",
+        "qml/components/FormationErrorCDFView.qml",
+        "qml/components/AITimelineView.qml",
+        "qml/components/QoSAnalysisView.qml",
+        "qml/components/ReportGeneratorView.qml",
+        "python/post_flight_backend.py"
+    ]
+}

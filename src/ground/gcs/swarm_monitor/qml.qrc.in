@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/SwarmMonitor">
+        <file>qml/SwarmMonitor.qml</file>
+        <file>qml/components/FormationView.qml</file>
+        <file>qml/components/HealthView.qml</file>
+        <file>qml/components/MeshQoSView.qml</file>
+        <file>qml/components/SafetyEventView.qml</file>
+    </qresource>
+    <qresource prefix="/python">
+        <file>python/swarm_monitor_backend.py</file>
+    </qresource>
+</RCC>

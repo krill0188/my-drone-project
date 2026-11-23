@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/PostFlightAnalyzer">
+        <file>qml/PostFlightAnalyzer.qml</file>
+        <file>qml/components/CoverageHeatmapView.qml</file>
+        <file>qml/components/FormationErrorCDFView.qml</file>
+        <file>qml/components/AITimelineView.qml</file>
+        <file>qml/components/QoSAnalysisView.qml</file>
+        <file>qml/components/ReportGeneratorView.qml</file>
+    </qresource>
+    <qresource prefix="/python">
+        <file>python/post_flight_backend.py</file>
+    </qresource>
+</RCC>

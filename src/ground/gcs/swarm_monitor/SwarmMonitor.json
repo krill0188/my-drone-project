@@ -1,0 +1,29 @@
+{
+    "name": "SwarmMonitor",
+    "version": "1.0.0",
+    "description": "Real-time swarm monitoring: formation status, vehicle health, mesh QoS, safety events",
+    "author": "AI Swarm Team",
+    "license": "BSD-3-Clause",
+    "qgcVersion": "4.2.0",
+    "dependencies": [],
+    "provides": [
+        "SwarmMonitor"
+    ],
+    "requires": [
+        "MissionManager",
+        "VehicleManager",
+        "LinkManager",
+        "CustomCommandWidget"
+    ],
+    "files": [
+        "SwarmMonitorPlugin.cc",
+        "SwarmMonitorPlugin.h",
+        "qml/SwarmMonitor.qml",
+        "qml/components/FormationView.qml",
+        "qml/components/HealthView.qml",
+        "qml/components/MeshQoSView.qml",
+        "qml/components/SafetyEventView.qml",
+        "qml/components/SwarmVehicleSelector.qml",
+        "python/swarm_monitor_backend.py"
+    ]
+}

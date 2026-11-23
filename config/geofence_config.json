@@ -1,0 +1,56 @@
+{
+  "polygons": [
+    {
+      "id": 1,
+      "is_exclusion": false,
+      "min_altitude_m": 0.0,
+      "max_altitude_m": 120.0,
+      "vertices": [
+        [-500, -500, 0],
+        [500, -500, 0],
+        [500, 500, 0],
+        [-500, 500, 0]
+      ]
+    },
+    {
+      "id": 2,
+      "is_exclusion": true,
+      "min_altitude_m": 0.0,
+      "max_altitude_m": 100.0,
+      "vertices": [
+        [100, 100, 0],
+        [200, 100, 0],
+        [200, 200, 0],
+        [100, 200, 0]
+      ]
+    },
+    {
+      "id": 3,
+      "is_exclusion": true,
+      "min_altitude_m": 0.0,
+      "max_altitude_m": 50.0,
+      "vertices": [
+        [-300, -300, 0],
+        [-200, -300, 0],
+        [-200, -200, 0],
+        [-300, -200, 0]
+      ]
+    },
+    {
+      "id": 4,
+      "is_exclusion": true,
+      "min_altitude_m": 0.0,
+      "max_altitude_m": 200.0,
+      "vertices": [
+        [400, 0, 0],
+        [500, 100, 0],
+        [400, 200, 0],
+        [300, 100, 0]
+      ]
+    }
+  ],
+  "buffer_distance_m": 10.0,
+  "enabled": true,
+  "trigger_rtl": true,
+  "rtl_altitude_m": 50.0
+}
